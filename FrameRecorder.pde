@@ -2,12 +2,18 @@
 // delete comment after this comment.
 //import com.hamoid.*;
 
+/**
+ * FrameRecorder interface
+ */
 interface FrameRecorder {
   void recordFrame();
   void bindTo(String fileName, String targetPath, int frameRate);
   void finish();
 }
 
+/**
+ * Syncronus frame recorder
+ */
 final class SyncFrameRecorder implements FrameRecorder {
   private final String imgExt;
   private final String frameFormat;
@@ -29,6 +35,9 @@ final class SyncFrameRecorder implements FrameRecorder {
   } 
 }
 
+/**
+ * Asyncronus frame recorder
+ */
 final class AsyncFrameRecorder implements FrameRecorder {
   private final ExecutorService executor = Executors.newCachedThreadPool();
   private final List<Future> futures = new ArrayList<Future>();
