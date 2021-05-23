@@ -14,11 +14,19 @@ WIP
 
 1. Create a new class that implements the `FrameMaker` interface.
 2. Edit the beginning of the `setup` function in `OneShotMovieWorkbench.pde` to set up the movie.
-  - Dimension of the display window
-  - Frame maker class to create frames
-  - Frame rate per second
-  - Bind frames to movie file immediately
+
+- Dimension of the display window
+- Frame maker class to create frames
+- Frame rate per second
+- Bind frames to movie file immediately
+
 3. Run.
+
+## Rules
+
+### Commit message format
+
+[Conventional Commits](https://www.conventionalcommits.org/)
 
 ## License
 
