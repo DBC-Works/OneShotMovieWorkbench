@@ -21,6 +21,17 @@ private int length;
 private int getLength() {
   return length;
 }
+private int getTotalFrameCount(int min, int sec, int fr) {
+  return ((min * 60) + sec) * TARGET_FRAME_RATE + fr;
+}
+
+/**
+ * Get progress
+ * @return Progress(percentage)
+ */
+float getProgress() {
+  return frameCount / (float)getLength();
+}
 
 void setup() {
   size(1280, 720, P3D);
@@ -31,8 +42,9 @@ void setup() {
   // TODO: Set setting variables
   TARGET_FRAME_RATE = 24;
   BIND_FRAMES = true;
-  //recorder = createFrameRecorderInstanceOf(FrameRecorderType.AsyncRecorder);
   length = Integer.MAX_VALUE;
+  //recorder = createFrameRecorderInstanceOf(FrameRecorderType.AsyncRecorder);
+  //length = getTotalFrameCount(3, 27, 13);
 
   frameRate(TARGET_FRAME_RATE);
   maker.setup();
