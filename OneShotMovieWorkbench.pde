@@ -41,10 +41,13 @@ void setup() {
 
   // TODO: Set setting variables
   TARGET_FRAME_RATE = 24;
-  BIND_FRAMES = true;
-  length = Integer.MAX_VALUE;
-  //recorder = createFrameRecorderInstanceOf(FrameRecorderType.AsyncRecorder);
-  //length = getTotalFrameCount(3, 27, 13);
+  BIND_FRAMES = false;
+  if (BIND_FRAMES != false) {
+    recorder = createFrameRecorderInstanceOf(FrameRecorderType.AsyncRecorder);
+    length = getTotalFrameCount(4, 20, 20);
+  } else {
+    length = Integer.MAX_VALUE;
+  }
 
   frameRate(TARGET_FRAME_RATE);
   maker.setup();
