@@ -12,7 +12,7 @@ interface FrameRecorder {
 }
 
 /**
- * Syncronus frame recorder
+ * Synchronous frame recorder
  */
 final class SyncFrameRecorder implements FrameRecorder {
   private final String imgExt;
@@ -36,11 +36,11 @@ final class SyncFrameRecorder implements FrameRecorder {
 }
 
 /**
- * Asyncronus frame recorder
+ * Asynchronous frame recorder
  */
 final class AsyncFrameRecorder implements FrameRecorder {
   private final ExecutorService executor = Executors.newCachedThreadPool();
-  private final List<Future> futures = new ArrayList<Future>();
+  private final List<Future<?>> futures = new ArrayList<Future<?>>();
   
   AsyncFrameRecorder() {
   }
@@ -62,9 +62,9 @@ final class AsyncFrameRecorder implements FrameRecorder {
       }
     };
     
-    Iterator<Future> it = futures.iterator();
+    Iterator<Future<?>> it = futures.iterator();
     while (it.hasNext()) {
-      final Future f = it.next();
+      final Future<?> f = it.next();
       if (f.isDone()) {
         it.remove();
       }
@@ -83,7 +83,7 @@ final class AsyncFrameRecorder implements FrameRecorder {
     catch (InterruptedException e) {
     }
     
-    for (Future f : futures) {
+    for (Future<?> f : futures) {
       if (f.isDone() == false && f.isCancelled() == false) {
         try {
           f.get();
