@@ -48,8 +48,8 @@ final public class FrameBinder {
   }
 
   private void execFfmpeg(File imgDir) throws IOException, InterruptedException {
-    final String[] cmd = { "ffmpeg", "-framerate", Integer.toString(rate), "-i", "%08d.jpg", "-pix_fmt", "yuv420p",
-        movieFileName };
+    final String[] cmd = { "ffmpeg", "-framerate", Integer.toString(rate), "-i", String.format("%%08d.%s", imgExt),
+        "-pix_fmt", "yuv420p", movieFileName };
     final ProcessBuilder processBuilder = new ProcessBuilder(cmd);
     processBuilder.redirectErrorStream(true);
     processBuilder.inheritIO();
