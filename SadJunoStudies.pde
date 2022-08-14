@@ -475,3 +475,250 @@ final class TearsFlowingInOurHearts implements FrameMaker {
     }
   }
 }
+
+final class EphemeralThreadsOfLife implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  final Easing easing = new Easing();
+
+  float t1 = 0;
+  float t2 = 0;
+
+  void setup() {
+    noFill();
+    smooth();
+    blendMode(ADD);
+    colorMode(HSB, 1, 100, 100, 100);
+    noiseSeed(122);
+  }
+  void draw() {
+    float f1 = ((1 + sin(t1)) / 2);
+    float f2 = f1 * f1;
+    float f3 = f2 * f2;
+    translate(width / 2, height / 2);
+    background(0);
+
+    rotateY(t2 + f1);
+    float s = H / 8;
+    s += s * f1;
+    for (float i = -1; i <= 1; i += 0.05) {
+      push();
+      stroke((i * 0.1) + ((1 + sin(t2)) / 2), 99 * noise(t1, t2), 99, 67);
+      float x = height * i * tan(t1);
+      float y = height * i * sin(t1) * sin(t1);
+      translate(x, y);
+      rotateX(t1 + i);
+      box(s, s * 4,  height * f1);
+      pop();
+      t1 += 0.0005;
+      t2 += 0.0001;
+    }
+  }
+}
+
+final class BeyondTheForce implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  final Easing easing = new Easing();
+
+  float t = 0;
+  float I = 0.05;
+
+  void setup() {
+    smooth();
+    blendMode(ADD);
+    noStroke();
+    fill(255, 8);
+    rectMode(CENTER);
+  }
+  void draw() {
+    background(0);
+    translate(width / 2, height / 2);
+    rotate(-t);
+
+    for (float n = 0; n < TAU; n += TAU / 5) {
+      push();
+      translate(H * cos(n),H* sin(n));
+      float l = W;
+      for (float a = 0; a < PI; a += I) {
+        rotate(I + tan(t));
+        square(0, 0, l);
+        l = l / ((sin(I) + cos(I)));
+        t += 0.000002;
+      }
+      pop();
+    }
+  }
+}
+
+final class MonologueWithAnAngel implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  final Easing easing = new Easing();
+
+  float t = 0;
+  float I = 0.05;
+
+  String[] texts = {
+    "Are you here?",
+    "I want to talk.",
+    "But I don't know what to talk.",
+    "",
+    "Can you see me?",
+    "There's no future, there's no past.",
+    "There's nothing here anymore.",
+    "",
+    "It's too late.",
+    "I'm so tired",
+    "and very afraid.",
+    "",
+    "I'm still waiting.",
+    "Waiting for ...",
+    "",
+    "Can you hear my voice?",
+    "I can't...",
+    "",
+    "Quiet...",
+    "Very quiet...",
+    "",
+  };
+
+  void setup() {
+    smooth();
+    noStroke();
+    textAlign(CENTER);
+    textFont(createFont("Cambria", 48));
+    fill(192);
+    clear();
+  }
+  void draw() {
+    int perFrame = (getLength() - 1)/ texts.length;
+    //if (frameCount == 1 || frameCount % perFrame == 0) {
+      text(texts[frameCount / perFrame], width / 2, height / 2 + 16);
+    //}
+    filter(BLUR, 0.6);
+  }
+}
+
+final class DreamInTheFlow implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  final Easing easing = new Easing();
+
+  float t = 0;
+  float I = 0.05;
+
+  void setup() {
+    smooth();
+    //blendMode(ADD);
+    noFill();
+    sphereDetail(6);
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+    rotateY(t * 1.618);
+    rotateZ(t * 1.618);
+    for (float i = 1; 0 <= i; i -= 0.05) {
+      stroke(255 * abs(sin(i * TAU + t)), 255 *abs(tan(t * 1.01)), 255, 128);
+      float s = width * i;
+      push();
+      rotate(t + i);
+      rotateY(t + i);
+      sphere(s);
+      pop();
+      t += 0.0001;
+    }
+  }
+}
+
+final class PendulumTrajectoryInMyMind implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  final Easing easing = new Easing();
+
+  float t = 0;
+  float I = 0.05;
+
+  void setup() {
+    smooth();
+    blendMode(ADD);
+    noStroke();
+  }
+  void draw() {
+    clear();
+    translate(width / 2,height / 2);
+    rotate(-t);
+    for (float v = 0; v < 1; v += 0.01) {
+      for (float h = 0; h < 1; h += 0.01) {
+        fill(255 * abs(sin(t)), 255 * abs(sin(t *1.618)),255  * abs(sin(t / 1.618)), 128);
+        float a = sin(h * v + t) * TAU;
+        float x = cos(a * a) * H * sin(h + t);
+        float y = sin(a * a) * H * sin(v + t);
+        circle(x, y, 8 * h * v);
+        circle(-x, -y, 8 * h * v);
+      }
+    }
+    t += 0.01;
+  }
+}
+
+final class FromTheRoadside implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    smooth();
+    blendMode(ADD);
+    noStroke();
+  }
+  void draw() {
+    background(0);
+    translate(W,H);
+    for (float n = 0; n < TAU; n += 0.2) {
+      rotate(n);
+      fill(255*abs(cos(n+t)),255*abs(cos(n+n+t)),255*abs(sin(n*n+t)),16);
+      circle(cos(n * 2 + t) * H,pow(sin(n * n + t), 3) * H, W * n * ((1 + sin(t)) / 2));
+      t += 0.00001;
+    }
+  }
+}
+
+final class ThroughTheTunnel implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    smooth();
+    blendMode(ADD);
+    noStroke();
+    noiseSeed(132);
+  }
+  void draw() {
+    clear();
+    translate(W,H);
+    for (float v = 0; v < 1; v += 0.01) {
+      for (float h = 0; h < 1; h += 0.01) {
+        float a = noise(h, v, t) * TAU;
+        float x = cos(a * a) * H * sin(h + t);
+        float y = sin(a * a) * H * sin(v + t);
+        fill(192, 192, 255, 192 + (255 - 192) * h * v);
+        circle(x, y, 4 * h * v);
+      }
+    }
+    /*
+    push();
+    stroke(255, 128);
+    rotate(t);
+    line(-W, -H, W, H);
+    rotate(HALF_PI);
+    line(-W, -H, W, H);
+    pop();
+     */
+    t += 0.01;
+  }
+}
