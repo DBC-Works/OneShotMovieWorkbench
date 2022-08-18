@@ -98,8 +98,7 @@ void draw() {
     if (recorder != null) {
       recorder.finish();
       if (BIND_FRAMES != false) {
-        final String targetPath = MessageFormat.format("{0}{1}img", sketchPath(), File.separator);
-        recorder.bindTo("movie.mp4", targetPath, TARGET_FRAME_RATE);
+        recorder.bindTo("movie.mp4", soundFilePath, TARGET_FRAME_RATE);
       }
       recorder = null;
     }

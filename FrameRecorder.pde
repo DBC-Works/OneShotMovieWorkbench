@@ -3,32 +3,53 @@
 //import com.hamoid.*;
 
 /**
- * FrameRecorder interface
+ * FrameRecorder abstract class
  */
-interface FrameRecorder {
-  void recordFrame();
-  void bindTo(String fileName, String targetPath, int frameRate);
-  void finish();
+abstract class FrameRecorder {
+  abstract void recordFrame();
+  abstract void bindTo(String fileName, int frameRate);
+  abstract void bindTo(String fileName, String soundFilePath, int frameRate);
+  abstract void finish();
+
+  protected String getRecordPath() {
+    return MessageFormat.format(
+      "{0}{1}img",
+      sketchPath(),
+      File.separator
+    );
+  }
+
+  protected String makeImageFileName(String fileNameFormat) {
+    return MessageFormat.format(
+      "img{0}{1}",
+      File.separator,
+      fileNameFormat
+    );
+  }
 }
 
 /**
  * Synchronous frame recorder
  */
-final class SyncFrameRecorder implements FrameRecorder {
+final class SyncFrameRecorder extends FrameRecorder {
   private final String imgExt;
   private final String frameFormat;
 
   SyncFrameRecorder(String ext) {
     imgExt = ext;
-    frameFormat = "img/########." + ext;
+    frameFormat = makeImageFileName("########." + ext);
   }
 
   void recordFrame() {
     saveFrame(frameFormat);
   }
 
-  void bindTo(String fileName, String targetPath, int frameRate) {
-    new FrameBinder(fileName, targetPath, imgExt, frameRate).bind();
+  void bindTo(String fileName, int frameRate) {
+    new FrameBinder(fileName, getRecordPath(), imgExt, null, frameRate).bind();
+  } 
+
+  void bindTo(String fileName, String soundFilePath, int frameRate) {
+    new FrameBinder(fileName, getRecordPath(), imgExt, soundFilePath, frameRate).bind();
   } 
 
   void finish() {
@@ -38,7 +59,7 @@ final class SyncFrameRecorder implements FrameRecorder {
 /**
  * Asynchronous frame recorder
  */
-final class AsyncFrameRecorder implements FrameRecorder {
+final class AsyncFrameRecorder extends FrameRecorder {
   private final ExecutorService executor = Executors.newCachedThreadPool();
   private final List<Future<?>> futures = new ArrayList<Future<?>>();
   
@@ -58,7 +79,8 @@ final class AsyncFrameRecorder implements FrameRecorder {
       public void run() {
         final PImage frameImage = createImage(width, height, HSB);
         frameImage.pixels = savePixels;
-        frameImage.save(String.format("img/%08d.jpg", saveFrameCount));
+        final String saveFilePath = makeImageFileName(formatFileName(saveFrameCount));
+        frameImage.save(saveFilePath);
       }
     };
     
@@ -72,15 +94,25 @@ final class AsyncFrameRecorder implements FrameRecorder {
     futures.add(executor.submit(saveTask));
   }
 
-  void bindTo(String fileName, String targetPath, int frameRate) {
-    new FrameBinder(fileName, targetPath, "jpg", frameRate).bind();
+  void bindTo(String fileName, int frameRate) {
+    new FrameBinder(fileName, getRecordPath(), "jpg", null, frameRate).bind();
   }
 
+  void bindTo(String fileName, String soundFilePath, int frameRate) {
+    new FrameBinder(fileName, getRecordPath(), "jpg", soundFilePath, frameRate).bind();
+  } 
+
   void finish() {
-    try {
-      Thread.sleep(1000);
-    }
-    catch (InterruptedException e) {
+    final File expectFilePath = new File(getRecordPath(), formatFileName(frameCount));
+    for (int i = 0; i < 10; ++i) {
+      try {
+        Thread.sleep(1000);
+      }
+      catch (InterruptedException e) {
+      }
+      if (expectFilePath.exists()) {
+        break;
+      }
     }
     
     for (Future<?> f : futures) {
@@ -107,6 +139,10 @@ final class AsyncFrameRecorder implements FrameRecorder {
       }
     }
   }
+
+  private String formatFileName(long frameCount) {
+    return String.format("%08d.jpg", frameCount);
+  }
 }
 
 /*
@@ -123,8 +159,12 @@ final class VideoExportRecorder extends FrameRecorder {
   }
   
 
-  void bindTo(String fileName, String targetPath, int frameRate) {
-    // To nothing.
+  void bindTo(String fileName, int frameRate) {
+    // Do nothing.
+  }
+
+  void bindTo(String fileName, String soundFile, int frameRate) {
+    throw new java.lang.UnsupportedOperationException();
   }
 
   void finish() {
