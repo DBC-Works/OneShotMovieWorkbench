@@ -16,6 +16,7 @@ If you want to make a movie file immediately, you need to install [FFmpeg](https
    - Frame maker class to create frames
    - Frame rate per second
    - Bind frames to movie file immediately
+   - Sound file path that play and merge into generated movie(option)
 3. Run.
 
 ## Rules
