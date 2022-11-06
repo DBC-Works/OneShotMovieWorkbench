@@ -722,3 +722,126 @@ final class ThroughTheTunnel implements FrameMaker {
     t += 0.01;
   }
 }
+
+final class ToTheHillWhereAcaciaBlooms implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t1 = 0;
+  float t2 = 0;
+
+  ConditionalDrawingPiece titlePiece;
+
+  void setup() {
+    smooth();
+    blendMode(ADD);
+    noStroke();
+
+    int fontSize = 48;
+    titlePiece = new ConditionalDrawingPiece() {
+      public void draw() {
+        push();
+        textAlign(CENTER);
+        fill(255, 255, 224, 248);
+        text("アカシアの咲く丘へ", 0, (height - fontSize)/ 2, width, height);
+        pop();
+      }
+      public boolean canDraw() {
+        return getTotalFrameCount(3, 29, 5) <= frameCount;
+      }
+    };
+    textFont(createFont("UD デジタル 教科書体 NK-R", fontSize));
+  }
+
+  void draw() {
+    push();
+
+    float intensity = frameCount / (float)getLength();
+    clear();
+    for (float v = 0; v < 1; v += 0.01) {
+      for (float h = 0; h < 1; h += 0.01) {
+        fill(255 * v * intensity, 255 * h, 255 * abs(tan(t1)), 128);
+        float a = cos(h + v + t1) * TAU;
+        float x = cos(a) * 360 * sin(h + t1);
+        float y = sin(a) * 360 * cos(v + t2);
+        
+        circle(width / 2  + x, height / 2 + y, 4 * h * v);
+      }
+    }
+    t1 += 0.01;
+    t2 += 0.001618;
+    pop();
+
+    if (titlePiece.canDraw()) {
+      titlePiece.draw();
+    }
+  }
+}
+
+final class MidnightSlipping implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  ConditionalDrawingPiece titlePiece;
+
+  void setup() {
+    smooth();
+    noStroke();
+    blendMode(ADD);
+
+    int fontSize = 48;
+    titlePiece = new ConditionalDrawingPiece() {
+      public void draw() {
+        push();
+        textAlign(CENTER);
+        fill(255, 255, 255, 224);
+        text("Midnight Slipping", 0, (height - fontSize)/ 2, width, height);
+        pop();
+      }
+      public boolean canDraw() {
+        return getTotalFrameCount(4, 28, 16) <= frameCount;
+      }
+    };
+    textFont(createFont("Square 721 BT", fontSize));
+  }
+
+  void draw() {
+    push();
+    translate(W, H);
+    float n = H * 0.1;
+    //lights();
+
+    /*
+    lightSpecular(255 * (1+ (sin(t * 30) / 2)), 0, 255 * (1+ (sin(t * 64) / 2)));
+    spotLight(255, 255, 255, -W, -H, 200, 0, 1, -1, PI, 1); 
+    specular(255);
+    emissive(32);
+    shininess(0.5);
+    */
+
+    float swing = (1 + sin(t / 2)) / 2;
+    fill(255 * (swing / 3), 255 * (swing / 2), 255 * swing, 16);
+
+    background(0);
+    for (float i = 0;i < 1;i += 0.01) { 
+      float a = TAU * (i + t);
+      push();
+      translate(H * sin(a) * cos(t), 0, -64);
+      rotateX(a);
+      rotateZ(a / 3);
+      rotateY(a / 2);
+      box(n * 4, n * 9, n);
+      pop();
+    }
+    t += 0.0005;
+    pop();
+
+    if (titlePiece.canDraw()) {
+      //lights();
+      translate(0, 0, 128);
+      titlePiece.draw();
+    }
+  }
+}
