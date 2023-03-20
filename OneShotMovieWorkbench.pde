@@ -57,12 +57,14 @@ float getProgress() {
 
 void setup() {
   size(1280, 720, P3D);
+  //size(1280, 720);
 
   // TODO: Set frame maker
   maker = new SampleMaker();
-
+  
   // TODO: Set setting variables
   TARGET_FRAME_RATE = 24;
+  //TARGET_FRAME_RATE = 8;
   BIND_FRAMES = false;
   //soundFilePath = "(Write absolute file path of sound file here and enable this line)";
 
@@ -85,6 +87,9 @@ void setup() {
   }
 }
 void draw() {
+  if (frameRate < (TARGET_FRAME_RATE - 2)) {
+    println("(frame dropped at " + frameCount + "(frameRate=" + frameRate + "))");
+  }
   maker.draw();
   if (recorder != null) {
     recorder.recordFrame();
