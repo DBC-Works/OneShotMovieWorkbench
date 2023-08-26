@@ -207,3 +207,46 @@ final class HeavyCrackedFuture implements FrameMaker {
     }
   }
 }
+
+final class Pleasure implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    colorMode(HSB, 360, 100, 100, 100);
+  }
+  void draw() {
+    translate(W,H);
+    background(360);
+
+    push();
+    directionalLight(0, 0, 100, 0, 0, -1);
+    spotLight((frameCount / 10) % 360, 10, 100, 0, 0, 0, 0, 0, -1, HALF_PI, 1);
+    lightSpecular(0, 10, 100);
+    specular(360);
+    ambient(0);
+    emissive(0);
+    shininess(64);
+
+    rotateX(t * 1.618);
+    rotateY(t);
+    for (float u = -1;u < 1;u += .2) {
+      rotateY (u * TAU);
+      for (float z = -1;z < 1;z += .3) {
+        float l = width * .01 * (u + 1);
+        push();
+        translate(0, u * width * sin(t * u), width * z *cos(l + t));
+        rotateZ(u * TAU);
+        box(l * 4, l * 9, l);
+        pop();
+      }
+    }
+    t+=.01;
+
+    pop();
+  }
+}

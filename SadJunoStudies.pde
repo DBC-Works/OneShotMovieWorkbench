@@ -968,3 +968,167 @@ final class OnTheBackOfTheCorpse implements FrameMaker {
     t += .001;
   }
 }
+
+final class BeatUnderBlanket implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    colorMode(HSB,360,100,100,100);
+    noStroke();
+    smooth();
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+    for (float i = .01; i < 1; i+=.2) {
+      float hue = 360 * (((t*i) * .01 ) % 1);
+      fill(hue, 74, 99, 99 * i);
+      d(.9 * i);
+    }
+  }
+  void d(float w) {
+    if (0.1 < w) {
+      d(w*w);
+    }
+    for (float i = 0;i <= TAU; i += .005) {
+      rotateY(t * .001);
+      float x = W * w * cos(i + w) * sin(i + t) * sin(i);
+      float y = W * w * sin(i) * sin(t + w + t) *cos(i + t);
+      circle(x, y, 4 * w);
+    }
+    t+=.0005;
+  }
+}
+
+final class FacingTheUnderpass implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    background(0);
+  }
+  void draw() {
+    blendMode(NORMAL);
+    fill(0,4);
+    rect(0, 0, width, height);
+    translate(W, H);
+    blendMode(ADD);
+    d(0);
+  }
+  void d(float c) {
+    rotate(c * 0.001);
+    for (float i = 0; i <= TAU; i += .031415926) {
+      fill(64 * i / TAU, 255 * ((1 + sin(t)) / 2), c / 4);
+      float x = cos(i + t) * H * sin(i + c * c / 30 + t);
+      float y = sin(i + c * 0.001) * H * sin(i + c / 30 + t);
+      circle(x, y, 2 * c * .01);
+    }
+    c += 7;
+    if (c < 256) {
+      d(c);
+    }
+    t+=0.00005;
+  }
+}
+
+final class TearsWithout implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    blendMode(ADD);
+    colorMode(HSB, TAU, 100, 100, 100);
+  }
+  void draw() {
+    background(0);
+    translate(width / 2, H);
+    rotate(t);
+    for (float i = 0;i < TAU;i += 0.1){
+      //fill(255, 255 * i / TAU);
+      fill(((t *0.1)* i) % TAU, 33, 100, 100 * i / TAU);
+      for (float j=0;j < TAU;j += 0.1){
+        float a = atan2(i + sin(t), j + cos(t)) * TAU;
+        float x=cos(a) * H * sin(j);
+        float y=sin(a) * H;
+        circle(x, y, 4);
+        circle(-x, -y, 4);
+      }
+    }
+    t+=0.01;
+  }
+}
+
+final class ResistanceReflecting implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    blendMode(ADD);
+    colorMode(HSB,TAU,1,1,1);
+  }
+  void draw() {
+    background(0);
+    translate(W,H);
+    for (float a = 0; a < TAU; a += 0.001) {
+      rotate(a);
+      //fill(a, .4, 1, .8);
+      fill(a, 1.0*((1 + cos(t * 2)) / 2), 1, .8);
+      float x = cos((a + a + t))*.1 * H * tan(sin(a)); 
+      float y = sin(a * a * .1) * H * tan(log(t + a));
+      circle(x, y, 2);
+    }
+    t += 0.02;
+  }
+}
+
+final class StandWithNakedAnger implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    blendMode(ADD);
+    colorMode(HSB, 1, 1, 1, 1);
+    ellipseMode(CENTER);
+  }
+  void draw() {
+    background(0);
+    translate(W,H);
+    rotate(-t);
+    for (float i = 0; i <= 1.0; i+=0.1) {
+      rotateY(i * TAU);
+      rotate(-i + (0.3 * ((1 + sin(t) / 2))));
+      for (float y = 0; y <= 1; y += 0.1) {
+        for (float x = 0; x <= 1; x += 0.01) {
+          //fill(y, noise(y, x, t), 1, 1);
+          fill(y, 1, 1, 1);
+          float X = x * W * cos(t + y) * sin(x + i);
+          float Y = W * sin(x * TAU) * sin(t + i);
+          float d = 4;
+          circle(X, Y, d);
+          circle(-X * 1.618 * tan(t), -Y * 1.618 * cos(t), d);
+        }
+      }
+
+    }
+    t += 0.01;
+  }
+}
