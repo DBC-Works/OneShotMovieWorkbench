@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.text.MessageFormat;
 import java.io.FileFilter;
 
+import processing.sound.Amplitude;
 import processing.sound.SoundFile;
 
 private int TARGET_FRAME_RATE;
@@ -33,6 +34,10 @@ private int getLength() {
 }
 private int getTotalFrameCount(int min, int sec, int fr) {
   return ((min * 60) + sec) * TARGET_FRAME_RATE + fr;
+}
+private Amplitude amplitude;
+private Amplitude getAmplitude() {
+  return amplitude;
 }
 
 private int calcLengthFromSoundFile() {
@@ -71,6 +76,8 @@ void setup() {
   if (soundFilePath != null) {
     soundFile = new SoundFile(this, soundFilePath);
     length = calcLengthFromSoundFile();
+    amplitude = new Amplitude(this);
+    amplitude.input(soundFile);
   } else {
     length = BIND_FRAMES != false ? getTotalFrameCount(5, 0, 0) : Integer.MAX_VALUE;
   }
