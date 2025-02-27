@@ -4,7 +4,7 @@
 final class Shape {
   /**
    * Draw regular polygon
-   * @param raduis Raduis
+   * @param radius Radius
    * @param number Number of sides
    * @param pos Position to draw
    */
