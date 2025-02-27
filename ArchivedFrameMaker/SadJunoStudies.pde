@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 final class WorldMakeOfEntangledChaoticThreads implements FrameMaker {
   final float W = width / 2;
   final float H = height / 2;
@@ -1130,5 +1132,564 @@ final class StandWithNakedAnger implements FrameMaker {
 
     }
     t += 0.01;
+  }
+}
+
+final class TillWeDisappearFrom implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noStroke();
+    fill(255, 128);
+    blendMode(ADD);
+  }
+  void draw() {
+    translate(W, H);
+    background(0);
+    for(float i=0;i<=1;i+=0.01){
+      for(float j=0;j<=1;j+=0.05){
+        float x = W * cos(t + i * TAU) * cos(j + cos(t));
+        float y = H * sin(t + i * TAU) * sin(j + i + t);
+        circle(x, y, 4);
+        circle(-x * 1.168, -y * 1.168, 2);
+      }
+      t+=0.00001;
+    }
+  }
+}
+
+final class ForEbbTide implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+
+  void setup() {
+    noStroke();
+    //blendMode(ADD);
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+    float t = frameCount * 0.0009;
+    rotate(-t);
+    for (float i = 0; i < 1; i += .03) {
+      rotateX(t * 0.1);
+      fill(255, 128 * i);
+      for (float j = t; j < t + i * TAU * 1.62; j += .02) {
+        circle(
+          cos(atan2(sin(t) + i, sin(-t) + j) + j) * cos(t + j) * W * sin(t + j),
+          sin(j + sin(j)) * H *sin(t + i),
+          2);
+        t += 1e-7;
+      }
+    }
+  }
+}
+
+final class ProtestAgainstTheWall implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    //colorMode(HSB, 360, 100, 100, 255);
+  }
+  void draw() {
+    fill(#dc143c, 16);
+    //fill(347, 90 + (9 * ((1+ sin(t)) / 2)), 85, 16);
+    //fill(0 + (44 * ((1+ sin(t)) / 2)), 90, 85, 16);
+    noStroke();
+    rect(0, 0, width, height);
+
+    noFill();
+    translate(W, H);
+    rotateY(t);
+    rotateZ(t);
+    for (float i = 1; 0 <= i; i -= 0.04) {
+      strokeWeight(4 * i);
+      stroke(0, 255 * i);
+      push();
+      rotate(t + i * 1.618);
+      rotateY(t + i * 1.618);
+      box(width * i);
+      pop();
+      t += 0.0001;
+    }
+  }
+}
+
+final class SkyBeyondTheGrid implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+  float t = 0;
+
+  void setup() {
+    colorMode(HSB, 1, 1, 1, 1);
+    noStroke();
+    blendMode(ADD);
+  }
+  void draw() {
+    background(t % 1, 1, .1);
+    fill(1, .1);
+    translate(W, H);
+    rotateY(t);
+    rotateX(-t * 1.618);
+    for (float i = 0; i < 1.0; i +=.02) {
+      float a = i * TAU;
+      float r= H + W * sin(a + t);
+      push();
+      rotateX(a);
+      rotateY(a + t);
+      rotate(a * i + t);
+      box(r * 4, r * 9, r);
+      pop();
+    }
+    t += .001;
+  }
+}
+
+final class ToTheWorldDestructive implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+  }
+  void draw() {
+    background(0);
+    noFill();
+    translate(W, H);
+    for (var i = .0; i < 1; i += 0.01) {
+      stroke(
+        128 + 255 * i,
+        128 * sin(i * 3.1415926535),
+        255 * ((1 + sin(t * 10)) / 2),
+        255
+      );
+      var a = i * TAU;
+      rotate(i);
+      rotateX(a);
+      rotateY(t);
+      ellipse(0, 0, W * (1 + cos(a)), W * a);
+    }
+    t += 0.001;
+  }
+}
+
+final class WithFootprintsOfLight implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noStroke();
+    background(0);
+    colorMode(HSB, TAU, TAU, TAU, TAU);
+  }
+  void draw() {
+    //background(0);
+    fill(0, .1);
+    rect(0,0,width,height);
+    push();
+    //blendMode(ADD);
+    translate(W, H);
+    rotate(t);
+    rotateY(t);
+    for(var i = .0; i <= TAU; i += .1) {
+      rotateY(i);
+      fill((t + (i / 2)) % TAU, TAU - i, TAU, i);
+      for(var j = -PI; j <= PI; j += .02) {
+        var a = atan2(i + j, j - t);
+        var x = cos(a * a + t) * H * tan(j + i);
+        var y = sin(a + a - j) * H * cos(t + i);
+        circle(x, y, 2);
+      }
+    }
+    pop();
+    t += .01;
+  }
+}
+
+final class APartOfMySoulNoOneCanTakeAway implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noStroke();
+    colorMode(HSB,1,1,1,1);
+    blendMode(ADD);
+  }
+  void draw() {
+    background(0);
+    translate(W,H);
+    for (float i = 0; i <= 1; i += 0.01) {
+      rotate(i);
+      for (float j = -i; j <= i; j += 0.01) {
+        fill(i, 0.67, (t + i) / 2, 1);
+        float x = cos(i * TAU + t) * W * i * j;
+        float y = sin(i * j * TAU + t) * W * i * i * 1.618;
+        circle(x, y, 2);
+      }  
+    }
+    t += 0.01;
+  }
+}
+
+final class ListenToTheCall implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    blendMode(ADD);
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+  
+    var f = (1 + sin(t)) / 2;
+    for (var i = .0; i < 1; i += .002) {
+      rotate((TAU + t) * .01);
+      var a = i * TAU;
+      var x = cos(a + f) * H * sin(a);
+      var y = sin(a + a) * H * i;
+      stroke(255, 255 * f, 255 * i, 192);
+      arc(x, y, -x * 1.618 * f, -y * 1.618 * i, 0, TAU * (i + f));
+      t += 0.000002;
+    }
+  }
+}
+
+final class TooManyScreamsTooManyCracks implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+  private final float[] values = new float[360];
+
+  void setup() {
+    background(0);
+    blendMode(SCREEN);
+    noStroke();
+    noiseSeed(20240428);
+    randomSeed(20240428);
+  }
+  void draw() {
+    final var radius = H * 1.618 * sin(t);
+    final var amp = getAmplitude().analyze();
+    final var z = amp * 2;
+    for (int i = 0; i < values.length; i += 3) {
+      values[i] = (t == 0 ? random(i) : values[i] + (noise(i * 0.01, t) * z - (z *.5)));
+      final var angle = values[i] / 360 * TAU;
+      final var ratio = (i + t * 100) / values.length;
+      final var x = cos(angle) * radius * ratio;
+      final var y = sin(angle) * radius * ratio;
+      fill(0, 4, 0, 1);
+      circle(W - x * 1.618, H - y * 1.618, 4);
+      fill(0, 0, 32, 1);
+      circle(W + x * 1.618, H + y * 1.618, 4);
+      fill(229 * amp, 23, 31, 1);
+      circle(W + x, H + y, 2);
+    }
+    t += 0.001;
+ }
+}
+
+final class NightsWaitingForWings implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    blendMode(ADD);
+    colorMode(HSB, 360, 100, 100, 100);
+  }
+  void draw() {
+    final var bgColor = HtmlColorName.MIDNIGHT_BLUE;
+    background(bgColor.getHue(), bgColor.getSaturationAsInt(), bgColor.getBrightnessAsInt() * .5);
+
+    translate(W, H);
+    stroke((t * 100) % 360, 33, 99, 99);
+    for (var y = -1.0; y <= 1; y += .1) {
+      rotate(cos(t + y) + y * PI);
+      rotateY(sin(t *.2));
+      for (var x = -1.0; x <= 1; x += .1) {
+        rotateX(sin(x) * PI);
+        circle(W * x * cos(t + x), W * y * sin(t + y), H * .1 * sin(t + x + y));
+      }
+    }
+    t += 0.005;
+  }
+}
+
+final class BeyondTheDarkNight implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    background(0);
+  }
+  void draw() {
+    push();
+    noStroke();
+    fill(0,8);
+    rect(0,0,width,height);
+    pop();
+    translate(W + ((W / 4) * sin(t)), H + (H /2 * sin(t * 1.618)));
+    float i, a;
+    for (i = a = 0.0; i < 1;  a = (i += 0.002) * TAU) {
+      rotate(TAU * 0.002 * a);
+      var c = t + cos(t + a) * i;
+      var x = cos(c) * sin(t) * H * tan(t * i);
+      var y = sin(c) * cos(a) * H * tan(t + a);
+      var j = sin(t + a) / 1.62;
+      stroke(255, 64 + i * 32);
+      rect(x, y, -x * j, -y * j);
+      t += 0.00001;
+    }
+  }
+}
+
+final class OverTheRedMoon implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    background(0);
+    noStroke();
+    blendMode(ADD);
+    colorMode(HSB, 360, 100, 100, 100);
+  }
+  void draw() {
+    translate(W, H);
+    rotate(t);
+    for (var i = .0; i <= 1; i += PI * .001) {
+      var a = i * TAU + t;
+      fill(((i + t) * 360) % 360, getProgress() * 67, 100, 100);
+      var x = cos(a) * H * sin(t);
+      var y = sin(a) * H * tan(t) * cos(i + t);
+      circle(x, y, 2);
+    }
+    blendMode(NORMAL);
+    //fill(0, 4);
+    fill((t * 180) % 360, 33, 25, 4);
+    circle(0, 0, width * tan(t));
+
+    t+=.001;
+  }
+}
+
+final class OnTheEdgeOfTheWorldHazyWithAnger implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    noStroke();
+    blendMode(ADD);
+    colorMode(HSB, TAU, 1, 1, 1);
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+    rotate(t);
+    for (float i = 0; i <= TAU;i += .1) {
+      // fill (255, 255 * i / TAU);
+      fill((t + (i * .1)) % TAU, 0.67 * ((1 + acos(cos(t * 1.67))) / 2), 1, 1);
+      for (float j = -PI; j <= PI; j += .02) {
+        float a = atan2(i + j, j - t);
+        float x = cos(a * a + t) * H * tan(j + i);
+        float y = sin(a + a - j) * H * cos(t + i);
+        circle(x, y, 2);
+      }
+    }
+    t += .01;
+  }
+}
+
+final class HopeFlowingEphemerally implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+  private float x = 0;
+  private float y = 0;
+
+  void setup() {
+    noStroke();
+    background(0);
+  }
+  void draw() {
+    fill(0,6);
+    rect(0,0,width,height);
+    translate(W, H);
+    for (var i = .0; i < TWO_PI; i+= 0.001) {
+      var u = cos(y * x + i) * sin(t + x);
+      var v = sin(x * y + t) * cos(TWO_PI - i + y);
+      fill(255);
+      circle(u * H, v * H, 1);
+      fill(255,128);
+      circle(-x * H / 1.618, -y * H / 1.618, 1);
+      x = u;
+      y = v;
+    }
+    t += 0.001;
+  }
+}
+
+final class AmbivalenceSteps implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noStroke();
+    background(0);
+    colorMode(HSB, TAU, 1, 1, 1);
+    blendMode(ADD);
+  }
+  void draw() {
+    translate(W, H);
+    rotate(t * .67);
+    rotateY(t);
+    for (var i = t; i < t + TAU; i += 0.05) {
+      fill((i + t) % TAU, 1, 1, .67);
+      push();
+      rotate(i);
+      var h = W * ((acos(sin(t)) + 1) / 2);
+      var x = cos(i + sin(t)) * h * cos(t + i);
+      var y = sin(i + t) * h * sin(i + cos(t));
+      circle(x, y, 1);
+      pop();
+    }
+    t += 0.01;
+  }
+}
+
+final class ScarsAchingViolentlyAtTwilight implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    blendMode(ADD);
+  }
+  void draw() {
+    translate(W, H);
+    background(0);
+    noStroke();
+    fill(HtmlColorName.CRIMSON.getRed(), HtmlColorName.CRIMSON.getGreen(), HtmlColorName.CRIMSON.getBlue());
+    for (var i = -1.0;i < 1; i+=.1) {
+      for (var a = .0; a < TAU; a+= .01) {
+        var x = cos(a + i) * tan(t + a);
+        var y = sin(a * a *cos(t + i)) * tan(i + t);
+        circle(W*x,W*y,2);
+      }
+    }
+    t += .005;
+  }
+}
+
+final class AmbiguousSigns implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noFill();
+    colorMode(HSB,1,1,1,1);
+    blendMode(ADD);
+    smooth();
+    noiseSeed(92);
+  }
+  void draw() {
+    background(0);
+    translate(W,H);
+    for (var j=.0;j < 1; j += 0.01) {
+      push();
+      stroke(noise(j, t), 0.6, 1, 0.5);
+      rotate(noise(t, j) * PI);
+      ellipse(0, 0 , W, W * 1.618 *sin(j));
+      pop();
+    }
+    t+=.001;
+  }
+}
+
+final class Suffering implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noStroke();
+    colorMode(HSB, 1, 1, 1, 1);
+    noiseSeed(126);
+    blendMode(ADD);
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+    rotate(t);
+    for (var i = .0; i < 1; i += .02) {
+      rotate(i);
+      for (var a =.0; a < TAU; a += .01) {
+        //var x = cos(a +sin(i+t)) * tan(t + a) *noise(t,i);
+        //var y = sin(t + a) * tan(i *a) *noise(t,a);
+        //fill(i*255,x*255,y*255);
+        var x = cos(a + sin(i + t)) * tan(t + a);
+        var y = sin(t + a) * tan(i * a);
+        fill(noise(i, t), .67, 1, .33);
+        circle(x*H,y*H,2);
+      }
+      t += .0001;
+    }
+  }
+}
+
+final class OnTheUninvitedNight implements FrameMaker {
+  private final float W = width / 2;
+  private final float H = height / 2;
+  private float t = 0;
+
+  void setup() {
+    noiseSeed(72);
+    blendMode(ADD);
+    //stroke(255, 72);
+    colorMode(HSB, 1,1,1,1);
+    noFill();
+  }
+  void draw() {
+    background(0);
+    translate(W, H);
+
+    for (int n = -2; n <= 2; ++n) {
+      push();
+      var p = n * .45;
+      translate(W * p, 0);
+      float u,v,y;
+      for (var i = 0.0; i < 1.0; i += 0.02) {
+        var h = H * 1.67 * (noise(i + n, t) - .5);
+        stroke(noise(i, t + n), .1, .67, .3);
+        beginShape();
+        for (y = u = v = -1.0; y < 1.0; y += 0.02) {
+          var x = cos(y * PI) * h;
+          vertex(x, y * H, u, v * H);
+          v = y;
+          u = x + noise(y + n, t);
+        }
+        endShape();
+      }
+      pop();
+    }
+    t += 0.001;
   }
 }

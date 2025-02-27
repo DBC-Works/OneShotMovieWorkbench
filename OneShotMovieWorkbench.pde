@@ -40,6 +40,8 @@ private Amplitude getAmplitude() {
   return amplitude;
 }
 
+private String renderedMovieFilePath;
+
 private int calcLengthFromSoundFile() {
   assert soundFile != null;
 
@@ -65,8 +67,8 @@ void setup() {
   //size(1280, 720);
 
   // TODO: Set frame maker
-  maker = new SampleMaker();
-  
+  maker = new FrameMakerCreator().createSampleMaker();
+
   // TODO: Set setting variables
   TARGET_FRAME_RATE = 24;
   //TARGET_FRAME_RATE = 8;
@@ -74,7 +76,7 @@ void setup() {
   //soundFilePath = "(Write absolute file path of sound file here and enable this line)";
 
   if (soundFilePath != null) {
-    soundFile = new SoundFile(this, soundFilePath);
+    soundFile = new SoundFile(this, soundFilePath); 
     length = calcLengthFromSoundFile();
     amplitude = new Amplitude(this);
     amplitude.input(soundFile);
@@ -110,7 +112,7 @@ void draw() {
     if (recorder != null) {
       recorder.finish();
       if (BIND_FRAMES != false) {
-        recorder.bindTo("movie.mp4", soundFilePath, TARGET_FRAME_RATE);
+        recorder.bindTo(renderedMovieFilePath, soundFilePath, TARGET_FRAME_RATE);
       }
       recorder = null;
     }

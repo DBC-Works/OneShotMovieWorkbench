@@ -250,3 +250,47 @@ final class Pleasure implements FrameMaker {
     pop();
   }
 }
+
+final class GraveMarker implements FrameMaker {
+  final float W = width / 2;
+  final float H = height / 2;
+
+  float t = 0;
+
+  void setup() {
+    noStroke();
+    smooth();
+    background(0);
+  }
+  void draw() {
+    translate(W,H);
+    fill(192,192,192,8);
+    rect(-width,-width,width*width,width*width); 
+
+    push();
+    spotLight(220, 20, 60, 0, -height, 0, 0, 1, 0, PI/4, 1);
+    spotLight(192, 192, 192, 0, height*.5, 0, 0, -1, 0, PI/4, 1);
+    lightSpecular(255,255,255);
+    specular(255);
+    ambient(0); 
+    emissive(0);
+    shininess(5);
+
+    fill(255);
+    rotateX(PI/2-t);
+    for(var i=-1.0;i<=1;i+=.01){
+      rotate(i);
+      push();
+      translate(H*i,0);
+      rotateY(t*TAU);
+      rotateX(t+t);
+      rotate(t);
+      var r=H/20*i;
+      box(r,r*9,r*4);
+      pop();
+    }
+    t += .001;
+
+    pop();
+  }
+}
